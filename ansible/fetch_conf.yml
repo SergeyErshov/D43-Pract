@@ -1,0 +1,21 @@
+- name: fetch needed configs
+  hosts: stand
+  gather_facts: false
+  become: false
+
+  tasks:
+
+    - name: fetch configs
+      fetch:
+        src: "/home/esm/k8s/{{ item }}"
+        dest: "../conf/"
+        flat: true
+      with_items:
+        - "nginx-sf-conf.yml"
+        - "nginx.yml"
+
+    - name: fetch sensitive data
+      fetch:
+        src: "/home/esm/k8s/nginx_auth.yml"
+        dest: "../.metadata/"
+        flat: true
